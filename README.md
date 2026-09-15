@@ -25,3 +25,17 @@ For each target, the scripts document the following attack phases:
 ##  Disclaimer
 **For educational purposes only.** 
 These scripts were created strictly for learning and practicing concepts taught on Hack The Box Academy. They are designed specifically for the vulnerable lab environment provided by the platform. **Do not use these techniques or codes on systems, networks, or applications you do not have explicit and documented permission to test.**
+
+## 🔬 Root Cause Analysis (Reverse Engineering)
+During the study, the vulnerable binary was analyzed using **Ghidra** to understand the exact point of failure at the source code level. 
+
+As seen in the decompiled code below, the vulnerability is caused by unsafe memory operations inside the connection handler. The application copies the incoming payload into a fixed-size stack buffer without bounds checking, leading to the EIP overwrite.
+
+**1. Network setup and thread creation (main):**
+![Main Function](_main.png)
+
+**2. Finding the vulnerable function call (Connection Handler):**
+![Connection Handler](_ConnectionHandler@4.png)
+
+**3. The exact point of failure (Buffer Overflow in BofFunc):**
+![BofFunc Vulnerability](_BofFunc.png)
